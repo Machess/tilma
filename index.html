@@ -25,45 +25,91 @@
   </div>
 </header>
 
-<section class="hero">
-  <div class="hero-half tech">
-    <div class="hero-tag">// engineering</div>
-    <h1 class="hero-name">Mac Tilma</h1>
-    <div class="hero-role">Senior Software Engineer</div>
-    <pre><span class="c">// what I actually build</span>
+<section class="hero" id="hero">
+  <div class="hero-slider" id="heroSlider">
+
+    <div class="hero-panel hero-panel--tech" id="heroPanelTech">
+      <div class="hero-panel-inner">
+        <div class="hero-content">
+          <div class="hero-tag">// engineering</div>
+          <h1 class="hero-name">Mac Tilma</h1>
+          <div class="hero-role">Senior Software Engineer</div>
+          <pre><span class="c">// what I actually build</span>
 <span class="k">function</span> solve(problem) {
   <span class="k">const</span> system = design(problem);
   <span class="k">const</span> code   = build(system);
   <span class="k">return</span> ship(code, <span class="s">"production"</span>);
 }</pre>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#contact">Get in touch</a>
-      <a class="btn btn-ghost-dark" href="https://www.linkedin.com/in/mac-tilma-575a2522/?skipRedirect=true" target="_blank" rel="noopener">View LinkedIn</a>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">Get in touch</a>
+            <a class="btn btn-ghost-dark" href="https://www.linkedin.com/in/mac-tilma-575a2522/?skipRedirect=true" target="_blank" rel="noopener">View LinkedIn</a>
+          </div>
+        </div>
+        <div class="hero-world">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#4FD1C5" stroke-width="1.6"><path d="M8 4L2 12l6 8M16 4l6 8-6 8M13 3l-2 18" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>Engineering</h3>
+          <p>Designing and building software that has to actually run — not just demo well.</p>
+          <ul>
+            <li>Backend systems &amp; APIs</li>
+            <li>Integrations between products</li>
+            <li>Full-stack feature delivery</li>
+            <li>Containerised deployments</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-panel hero-panel--customer" id="heroPanelCustomer">
+      <div class="hero-panel-inner">
+        <div class="hero-world">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#E3A44B" stroke-width="1.6"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0M23 21v-2a4 4 0 0 0-3-3.87M17 3.13a4 4 0 0 1 0 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>Customer &amp; Business</h3>
+          <p>Making sure the thing that gets built is the thing that was actually needed.</p>
+          <ul>
+            <li>Requirements gathering</li>
+            <li>Technical explanations for non-technical people</li>
+            <li>Scoping &amp; solution design</li>
+            <li>Direct customer conversations</li>
+          </ul>
+        </div>
+        <div class="hero-content">
+          <div class="hero-tag">// customer &amp; business</div>
+          <div class="hero-role">— and Solutions Engineer</div>
+          <blockquote>
+            "I want to understand what you're actually trying to solve before I open an editor."
+            <span>The part of the job that doesn't show up in a stack trace.</span>
+          </blockquote>
+          <p class="hero-note">
+            A few years in sales and marketing before engineering means I'm comfortable in front of a customer, a whiteboard, or a pull request — and I know how to move between the three.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">Get in touch</a>
+            <a class="btn btn-ghost-light" href="https://www.linkedin.com/in/mac-tilma-575a2522/?skipRedirect=true" target="_blank" rel="noopener">View LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-divider" id="heroDivider" aria-hidden="true"></div>
+
+    <div class="hero-toggle" role="group" aria-label="Focus the hero on one side">
+      <button type="button" class="hero-toggle-btn hero-toggle-btn--customer" id="toggleCustomer" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Customer
+      </button>
+      <button type="button" class="hero-toggle-btn hero-toggle-btn--tech" id="toggleTech" aria-pressed="false">
+        Engineering
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </div>
 
-  <div class="seam">
-    <div class="seam-pulse"></div>
-  </div>
-  <div class="seam-badge" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#171A21" stroke-width="1.6">
-      <path d="M8 12h8M12 8l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
+  <button type="button" class="scroll-cue" id="scrollCue" aria-label="Scroll to About section">
+    <span>Scroll</span>
+    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-  </div>
-
-  <div class="hero-half customer">
-    <div class="hero-tag">// customer &amp; business</div>
-    <div class="hero-role hero-role-lead">— and Solutions Engineer</div>
-    <blockquote>
-      "I want to understand what you're actually trying to solve before I open an editor."
-      <span>The part of the job that doesn't show up in a stack trace.</span>
-    </blockquote>
-    <p class="hero-note">
-      A few years in sales and marketing before engineering means I'm comfortable in front of a customer, a whiteboard, or a pull request — and I know how to move between the three.
-    </p>
-  </div>
-
-  <div class="scroll-cue"><span>Scroll</span><span class="bar"></span></div>
+  </button>
 </section>
 
 <section class="section" id="about">
@@ -290,11 +336,11 @@
     <h2>Building something, or hiring for it?</h2>
     <p class="sub">I'm open to conversations about engineering roles, solutions engineering, and anything in between — remote, international, or project-based.</p>
     <div class="contact-actions">
-      <a class="btn btn-primary" href="mailto:mac_tilma@outlook.com">Email me</a>
+      <a class="btn btn-primary" href="mailto:mac@tilma.is">Email me</a>
       <a class="btn btn-ghost-dark" href="https://www.linkedin.com/in/mac-tilma-575a2522/?skipRedirect=true" target="_blank" rel="noopener">Connect on LinkedIn</a>
     </div>
     <div class="contact-details">
-      <div><span class="label">Email</span><a href="mailto:mac_tilma@outlook.com">mac_tilma@outlook.com</a></div>
+      <div><span class="label">Email</span><a href="mailto:mac@tilma.is">mac@tilma.is</a></div>
       <div><span class="label">LinkedIn</span><a href="https://www.linkedin.com/in/mac-tilma-575a2522/?skipRedirect=true" target="_blank" rel="noopener">/in/mac-tilma</a></div>
     </div>
   </div>

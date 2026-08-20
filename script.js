@@ -27,6 +27,38 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('is-scrolled', window.scrollY > SCROLL_THRESHOLD);
 });
 
+// ---------- Mobile menu (burger) ----------
+// Same links as the desktop nav, shown in a dropdown under the header.
+const navBurger = document.getElementById('navBurger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+if (navBurger && mobileMenu) {
+  const closeMobileMenu = () => {
+    navBurger.classList.remove('is-open');
+    navBurger.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+  };
+
+  const toggleMobileMenu = () => {
+    const isOpen = mobileMenu.classList.toggle('is-open');
+    navBurger.classList.toggle('is-open', isOpen);
+    navBurger.setAttribute('aria-expanded', String(isOpen));
+    mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+  };
+
+  navBurger.addEventListener('click', toggleMobileMenu);
+
+  // Close after picking a link, and if the viewport grows past mobile width.
+  mobileMenu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) closeMobileMenu();
+  });
+}
+
 // ---------- Hero toggle ----------
 // Desktop: three states — "both" is the default split view, and each
 // button expands its side to full width (click it again to go back to both).

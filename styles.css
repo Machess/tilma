@@ -146,13 +146,20 @@ h1.hero-name{
   line-height:1.04;
 }
 .hero-panel--tech h1.hero-name{color:var(--text-light);}
+
+/* Only one "Mac Tilma" should ever be visible at once. The tech side keeps
+   its heading by default (it's the identity line for the default split
+   view); the customer side's heading only appears once that side is
+   expanded to full — at which point the tech side is hidden anyway. */
+.hero-panel--customer h1.hero-name{display:none;}
+.hero-slider.state-customer .hero-panel--customer h1.hero-name{display:block;}
+
 .hero-role{
   font-family:var(--mono);font-size:15px;margin-top:14px;
 }
 .hero-panel--tech .hero-role{color:var(--text-light-dim);}
 .hero-panel--customer .hero-role{color:var(--text-dark-dim);}
 
-.hero-note{margin-top:24px;color:var(--text-dark-dim);font-size:15px;max-width:400px;}
 
 .hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
 .btn{
@@ -191,6 +198,13 @@ h1.hero-name{
 .hero-panel--tech .hero-world li::before{content:'→';position:absolute;left:0;color:var(--tech);}
 .hero-panel--customer .hero-world li::before{content:'→';position:absolute;left:0;color:var(--bridge);}
 
+.hero-world-note{
+  margin-top:20px;padding-top:20px;
+  border-top:1px solid var(--line-dark);
+  font-size:14px;max-width:340px;
+}
+.hero-panel--tech .hero-world-note{border-top-color:var(--line);}
+
 /* ---------- HERO SLIDER CONTROLS ---------- */
 .hero-divider{
   position:absolute;top:0;bottom:0;left:50%;
@@ -225,24 +239,16 @@ h1.hero-name{
 .hero-toggle-btn--customer[aria-pressed="true"]{background:var(--bridge);color:var(--ink);}
 .hero-toggle-btn--tech[aria-pressed="true"]{background:var(--tech);color:var(--ink);}
 
-/* ---------- SCROLL CUE ---------- */
-.scroll-cue{
-  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
-  z-index:10;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  padding:10px 18px 12px;
-  background:rgba(11,18,32,0.6);
-  border:1px solid rgba(255,255,255,0.16);
-  border-radius:999px;
-  backdrop-filter:blur(6px);
-  color:var(--text-light);
-  font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+/* ---------- HERO SCROLL BUTTON ---------- */
+/* Sits in hero-actions next to View LinkedIn, styled as a regular .btn but
+   reset to a <button> and given the small bouncing chevron as its cue. */
+.hero-scroll-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;
+  appearance:none;
   cursor:pointer;
-  transition:transform .2s ease, background .2s ease;
 }
-.scroll-cue:hover{transform:translateX(-50%) translateY(-2px);background:rgba(11,18,32,0.78);}
-.scroll-cue:focus-visible{outline:2px solid var(--bridge);outline-offset:3px;}
-.scroll-cue .chevron{width:14px;height:14px;animation:cue-bounce 1.6s ease-in-out infinite;}
+.hero-scroll-btn .chevron{width:14px;height:14px;animation:cue-bounce 1.6s ease-in-out infinite;}
 @keyframes cue-bounce{
   0%,100%{transform:translateY(0);opacity:0.55;}
   50%{transform:translateY(5px);opacity:1;}
@@ -407,9 +413,9 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;width
 @media (max-width:900px){
   nav.links{display:none;}
 
-  /* Below 900px the two halves stack instead of clipping side-by-side.
-     The toggle still works here: instead of widening a panel it simply
-     shows/hides the other one, so you can jump straight to one side. */
+  /* Below 900px there's no side-by-side split at all — the toggle simply
+     shows one full panel at a time (Tech by default), instead of clipping
+     a shared row like it does on desktop. */
   .hero{min-height:auto;}
   .hero-slider{height:auto;}
   .hero-panel{
@@ -418,26 +424,28 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;width
     align-items:flex-start !important;
     pointer-events:auto !important;
   }
-  .hero-panel--tech{padding:130px 28px 50px;}
-  .hero-panel--customer{padding:50px 28px 70px;}
-  /* If Customer is shown alone it becomes the first (top) panel and needs
-     the same clearance from the fixed nav that Tech normally gets. */
-  .hero-slider.state-customer .hero-panel--customer{padding-top:110px;}
-  .hero-slider.state-tech .hero-panel--customer,
+  .hero-panel--tech,
+  .hero-panel--customer{padding:130px 28px 72px;}
+  /* Same top/bottom padding on both sides, matching Engineering's spacing,
+     so whichever one is showing always gets the same clearance from the
+     nav and toggle, and hero-world's list always has the same room before
+     the panel ends. */
+
+  /* Mobile never shows the stacked 'both' view — it defaults to Tech only
+     (CSS-level, so there's no flash before JS applies the toggle state)
+     and Customer only appears once explicitly toggled on. */
+  .hero-panel--customer{display:none;}
+  .hero-slider.state-customer .hero-panel--customer{display:block;}
   .hero-slider.state-customer .hero-panel--tech{display:none;}
 
   .hero-content{max-width:none;}
   .hero-panel-inner{flex-direction:column;align-items:flex-start;}
+  /* Customer's DOM is world-then-content (needed for right-alignment on
+     desktop); on mobile put content — and its Get in touch / LinkedIn
+     buttons — first, matching the Engineering panel's stacking order. */
+  .hero-panel--customer .hero-content{order:-1;}
   .hero-divider{display:none;}
   .hero-toggle{top:64px;}
-
-  .scroll-cue{
-    position:static;
-    width:fit-content;
-    margin:40px auto 8px;
-    bottom:auto;left:auto;transform:none;
-  }
-  .scroll-cue:hover{transform:translateY(-2px);}
 
   .about-grid{grid-template-columns:1fr;}
   .about-photo,
@@ -456,5 +464,4 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;width
   .bring-grid{grid-template-columns:1fr;}
   .lang-row{grid-template-columns:1fr;}
   .section{padding:80px 0;}
-  .scroll-cue{font-size:10px;padding:8px 14px 10px;}
 }

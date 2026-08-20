@@ -28,9 +28,12 @@ window.addEventListener('scroll', () => {
 });
 
 // ---------- Hero toggle ----------
-// Two buttons instead of a drag gesture:
-// - "Engineering" expands the tech side to full width (click again to go back to both)
-// - "Customer" expands the customer/business side to full width (click again to go back to both)
+// Desktop: three states — "both" is the default split view, and each
+// button expands its side to full width (click it again to go back to both).
+// Mobile: there's no stacked "both" view (see the CSS media query) — it
+// always shows exactly one side, defaulting to Engineering. On mobile each
+// button just switches to its own side; clicking the already-active one
+// does nothing; there's nothing to "toggle off" to.
 const heroSlider = document.getElementById('heroSlider');
 const heroPanelTech = document.getElementById('heroPanelTech');
 const heroPanelCustomer = document.getElementById('heroPanelCustomer');
@@ -38,7 +41,10 @@ const toggleTech = document.getElementById('toggleTech');
 const toggleCustomer = document.getElementById('toggleCustomer');
 
 if (heroSlider && toggleTech && toggleCustomer) {
-  let state = 'both'; // 'both' | 'tech' | 'customer'
+  const MOBILE_QUERY = '(max-width: 900px)';
+  const isMobile = () => window.matchMedia(MOBILE_QUERY).matches;
+
+  let state = isMobile() ? 'tech' : 'both'; // 'both' | 'tech' | 'customer'
 
   const applyState = () => {
     heroSlider.classList.toggle('state-tech', state === 'tech');
@@ -53,24 +59,36 @@ if (heroSlider && toggleTech && toggleCustomer) {
   };
 
   toggleTech.addEventListener('click', () => {
-    state = state === 'tech' ? 'both' : 'tech';
+    state = isMobile() ? 'tech' : (state === 'tech' ? 'both' : 'tech');
     applyState();
   });
 
   toggleCustomer.addEventListener('click', () => {
-    state = state === 'customer' ? 'both' : 'customer';
+    state = isMobile() ? 'customer' : (state === 'customer' ? 'both' : 'customer');
     applyState();
   });
 
   applyState();
+
+  // If the viewport crosses the mobile breakpoint after load (window
+  // resize, device rotation), make sure 'both' never lingers on mobile.
+  window.addEventListener('resize', () => {
+    if (isMobile() && state === 'both') {
+      state = 'tech';
+      applyState();
+    }
+  });
 }
 
-// ---------- Scroll cue ----------
-const scrollCue = document.getElementById('scrollCue');
+// ---------- Hero scroll buttons ----------
+// One lives in each panel's hero-actions row, next to View LinkedIn.
+const scrollButtons = document.querySelectorAll('.hero-scroll-btn');
 const aboutSection = document.getElementById('about');
 
-if (scrollCue && aboutSection) {
-  scrollCue.addEventListener('click', () => {
-    aboutSection.scrollIntoView({ behavior: 'smooth' });
+if (scrollButtons.length && aboutSection) {
+  scrollButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    });
   });
 }
